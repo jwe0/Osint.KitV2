@@ -82,9 +82,27 @@ class Main:
 
         self.session = tls_client.Session()
 
+        self.method_count, self.module_count = self.count_modules()
+
+    def count_modules(self):
+        methods = 0
+        modules = 0
+
+        results = {}
+
+        for section in self.modules:
+            methods += 1
+            for module in self.modules[section]:
+                modules += 1
+
+        return methods, modules
+
     def menu(self):
         clear_screen()
         ascii_art()
+        print("❱ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ʙʏ /ᴊᴡᴇ0   ")
+        print(f"❱ Loaded | Methods [{self.method_count}] | Modules [{self.module_count}]")
+        print()
 
     def main(self):
         while True:
@@ -94,6 +112,7 @@ class Main:
 
             for section in self.conversion_table:
                 info(f"[{section}] {self.conversion_table[section]}")
+            print()
             section_choice = inpt("Section")
 
             while not section_choice.isdigit() or section_choice not in self.conversion_table:
@@ -118,6 +137,7 @@ class Main:
 
             for module in temp_conversion_table:
                 info(f"[{module}] {temp_conversion_table[module]}")
+            print()
 
             module_choice = inpt("Module")
 
@@ -145,6 +165,8 @@ class Main:
             info(f"Module: {module_name}")
             info(f"{module_desc}")
 
+            print()
+
             args = {}
 
             for arg in module_args:
@@ -164,6 +186,8 @@ class Main:
             print()
             for arg in args:
                 info(f"{arg.title()} = [{args[arg]}]")
+
+                print()
 
             confirm = inpt("Would you like to execute this moduke? y/n")
 
