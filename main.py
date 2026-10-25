@@ -13,6 +13,10 @@ from core.modules.ip.iplookup import ip_lookup
 from core.modules.ip.getbanner import getbanner
 from core.modules.ip.isproxy import isproxy
 
+# Domain
+from core.modules.domain.directoryenumerate import dir_enumerate
+from core.modules.domain.subdomaineumerate import sub_domain_enumerate
+
 class Main:
     def __init__(self):
         self.modules = {
@@ -56,7 +60,20 @@ class Main:
                     "func" : isproxy
                 }
             },
-            "Identity" : {}
+            "Domain" : {
+                "Directory_Fuzz" : {
+                    "name" : "Directory enumerator",
+                    "description" : "Find hidden pages",
+                    "args" : ["url"],
+                    "func" : dir_enumerate
+                },
+                "Subdomain_Enumerate" : {
+                    "name" : "Subdomain Enumerate",
+                    "description" : "Enumerate subdomains from a domain",
+                    "args" : ["domain"],
+                    "func" : sub_domain_enumerate
+                }
+            }
         }
 
         self.conversion_table = {}
