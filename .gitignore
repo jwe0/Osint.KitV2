@@ -1,0 +1,8 @@
+# Folders
+env
+__pycache__
+Osint.Kit
+
+# Files
+config.json
+test
