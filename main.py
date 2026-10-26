@@ -129,8 +129,6 @@ class Main:
         methods = 0
         modules = 0
 
-        results = {}
-
         for section in self.modules:
             methods += 1
             for module in self.modules[section]:
@@ -143,6 +141,7 @@ class Main:
         ascii_art()
         print("❱ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ʙʏ /ᴊᴡᴇ0   ")
         print(f"❱ ʟᴏᴀᴅᴇᴅ | ᴍᴇᴛʜᴏᴅꜱ [{self.method_count}] | ᴍᴏᴅᴜʟᴇꜱ [{self.module_count}]")
+        print("❱ ᴇɴᴛᴇʀ !Q ᴛᴏ ʀᴇᴛᴜʀɴ")
         print()
 
     def main(self):
@@ -187,7 +186,7 @@ class Main:
 
                 module_choice = inpt("Module")
 
-                if module_choice == "!q":
+                if module_choice.lower() == "!q":
                     return {
                         "response" : "reboot"
                     }
@@ -195,13 +194,15 @@ class Main:
                 while not module_choice.isdigit() or module_choice not in temp_conversion_table:
                     error("Please enter a valid module value")
                     module_choice = inpt("Module")
+                    if module_choice.lower() == "!q":
+                        return {
+                            "response" : "reboot"
+                        }
 
                 return {
                     "response" : temp_conversion_table[module_choice]
                 }
             
-
-
             def run_module(section_, module_):
 
                 self.menu()
@@ -230,6 +231,8 @@ class Main:
                     while not arg_input:
                         error("Please enter an argument")
                         arg_input = inpt(arg.title())
+                        if arg_input == "!q":
+                            return
                     args[arg] = arg_input
 
                 if not args:
@@ -258,7 +261,6 @@ class Main:
                     print()
 
                     message     = response["status"]
-                    # information = response["data"]
 
                     if message == "error":
                         print()
