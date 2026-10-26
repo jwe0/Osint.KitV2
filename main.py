@@ -147,122 +147,145 @@ class Main:
 
     def main(self):
         while True:
-            self.menu()
-            info(f"[>] Home")
-            print()
+            def start():
+                self.menu()
+                info(f"[>] Home")
+                print()
 
-            for section in self.conversion_table:
-                info(f"[{section}] {self.conversion_table[section]}")
-            print()
-            section_choice = inpt("Section")
+            def get_section():
 
-            while not section_choice.isdigit() or section_choice not in self.conversion_table:
-                error("Please enter a valid section value")
+                for section in self.conversion_table:
+                    info(f"[{section}] {self.conversion_table[section]}")
+                print()
                 section_choice = inpt("Section")
 
-            section_ = self.conversion_table[section_choice]
+                while not section_choice.isdigit() or section_choice not in self.conversion_table:
+                    error("Please enter a valid section value")
+                    section_choice = inpt("Section")
 
-            self.menu()
-            info(f"[>] Home/{section_}")
-            print()
+                return self.conversion_table[section_choice]
 
-            temp_conversion_table = {}
 
-            for i, module in enumerate(self.modules[section_]):
-                temp_conversion_table[str(i + 1)] = module
+            def get_module(section_):
+                self.menu()
+                info(f"[>] Home/{section_}")
+                print()
 
-            if not temp_conversion_table:
-                error("No modules created")
-                inpt("Press enter to continue")
-                continue
+                temp_conversion_table = {}
 
-            for module in temp_conversion_table:
-                info(f"[{module}] {temp_conversion_table[module]}")
-            print()
+                for i, module in enumerate(self.modules[section_]):
+                    temp_conversion_table[str(i + 1)] = module
 
-            module_choice = inpt("Module")
+                if not temp_conversion_table:
+                    error("No modules created")
+                    inpt("Press enter to continue")
+                    return
+                
+                for module in temp_conversion_table:
+                    info(f"[{module}] {temp_conversion_table[module]}")
+                print()
 
-            if module_choice == "!q":
-                continue
-
-            while not module_choice.isdigit() or module_choice not in temp_conversion_table:
-                error("Please enter a valid module value")
                 module_choice = inpt("Module")
 
-            module_ = temp_conversion_table[module_choice]
+                if module_choice == "!q":
+                    return {
+                        "response" : "reboot"
+                    }
 
-            self.menu()
-            info(f"[>] Home/{section_}/{module_}")
-            print()
+                while not module_choice.isdigit() or module_choice not in temp_conversion_table:
+                    error("Please enter a valid module value")
+                    module_choice = inpt("Module")
 
-            module_info = self.modules[section_][module_]
-
-            module_name = module_info["name"]
-            module_desc = module_info["description"]
-            module_args = module_info["args"]
-            module_func = module_info["func"]
-
+                return {
+                    "response" : temp_conversion_table[module_choice]
+                }
             
-            info(f"Module: {module_name}")
-            info(f"{module_desc}")
 
-            print()
 
-            args = {}
+            def run_module(section_, module_):
 
-            for arg in module_args:
-                arg_input = inpt(arg.title())
-                if arg_input == "!q":
-                    continue
-                while not arg_input:
-                    error("Please enter an argument")
+                self.menu()
+                info(f"[>] Home/{section_}/{module_}")
+                print()
+
+                module_info = self.modules[section_][module_]
+
+                module_name = module_info["name"]
+                module_desc = module_info["description"]
+                module_args = module_info["args"]
+                module_func = module_info["func"]
+
+                
+                info(f"Module: {module_name}")
+                info(f"{module_desc}")
+
+                print()
+
+                args = {}
+
+                for arg in module_args:
                     arg_input = inpt(arg.title())
-                args[arg] = arg_input
+                    if arg_input == "!q":
+                        return
+                    while not arg_input:
+                        error("Please enter an argument")
+                        arg_input = inpt(arg.title())
+                    args[arg] = arg_input
 
-            if not args:
-                continue
-            
-            self.menu()
-            info(f"[>] Home/{section_}/{module_}/Confirm")
-            print()
-            for arg in args:
-                info(f"{arg.title()} = [{args[arg]}]")
-
-                print()
-
-            confirm = inpt("Would you like to execute this ?module y/n")
-
-            if confirm.lower() == "y":
-
+                if not args:
+                    return
+                
                 self.menu()
-                info(f"[>] Home/{section_}/{module_}/Confirm/Executing")
+                info(f"[>] Home/{section_}/{module_}/Confirm")
                 print()
+                for arg in args:
+                    info(f"{arg.title()} = [{args[arg]}]")
 
-                response = module_func(self, args)
-
-                self.menu()
-                info(f"[>] Home/{section_}/{module_}/Confirm/Executing/Results")
-                print()
-
-                message     = response["status"]
-                # information = response["data"]
-
-                if message == "error":
                     print()
-                    error("Module failed")
-                    info(response["message"])
+
+                confirm = inpt("Would you like to execute this ?module y/n")
+
+                if confirm.lower() == "y":
+
+                    self.menu()
+                    info(f"[>] Home/{section_}/{module_}/Confirm/Executing")
+                    print()
+
+                    response = module_func(self, args)
+
+                    self.menu()
+                    info(f"[>] Home/{section_}/{module_}/Confirm/Executing/Results")
+                    print()
+
+                    message     = response["status"]
+                    # information = response["data"]
+
+                    if message == "error":
+                        print()
+                        error("Module failed")
+                        info(response["message"])
+                    else:
+                        success("Module ran")
+                        print()
+                        
+                        flatten_json(response["data"])
+
                 else:
-                    success("Module ran")
                     print()
-                    
-                    flatten_json(response["data"])
-
-            else:
+                    error("Cancelled by user request")
                 print()
-                error("Cancelled by user request")
-            print()
-            inpt("Press enter to continue")
+                inpt("Press enter to continue")
 
+
+            while True:
+                start()
+                section = get_section()
+                module = get_module(section).get("response")
+
+                if module == "reboot":
+                    continue
+                else:
+                    run_module(section, module)
 
 if __name__ == "__main__":
     main = Main()
