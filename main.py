@@ -1,5 +1,5 @@
 import tls_client
-from core.modules.init import ascii_art, clear_screen, flatten_json
+from core.modules.init import ascii_art, clear_screen, flatten_json, load_config
 from core.modules.logging import *
 
 
@@ -17,6 +17,10 @@ from core.modules.ip.isproxy import isproxy
 from core.modules.domain.directoryenumerate import dir_enumerate
 from core.modules.domain.subdomaineumerate import sub_domain_enumerate
 from core.modules.domain.toplevelenumerate import top_level_enumerate
+
+# Discord
+from core.modules.discord.useridlookup import user_id_lookup
+from core.modules.discord.webhooklookup import webhook_lookup
 
 class Main:
     def __init__(self):
@@ -80,6 +84,20 @@ class Main:
                     "args" : ["domain"],
                     "func" : top_level_enumerate
                 }
+            },
+            "Discord" : {
+                "UserID_Lookup" : {
+                    "name" : "User ID lookup",
+                    "description" : "Lookup a user ID",
+                    "args" : ["user_id"],
+                    "func" : user_id_lookup
+                },
+                "Webhook_Lookup" : {
+                    "name" : "Webhook Lookup",
+                    "description" : "Pull webhook info",
+                    "args" : ["webhook"],
+                    "func" : webhook_lookup
+                }
             }
         }
 
@@ -90,6 +108,8 @@ class Main:
         self.session = tls_client.Session()
 
         self.method_count, self.module_count = self.count_modules()
+
+        self.config = load_config()
 
     def count_modules(self):
         methods = 0
@@ -196,7 +216,7 @@ class Main:
 
                 print()
 
-            confirm = inpt("Would you like to execute this moduke? y/n")
+            confirm = inpt("Would you like to execute this ?module y/n")
 
             if confirm.lower() == "y":
 
