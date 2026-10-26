@@ -4,18 +4,13 @@ import json
 
 def maclookup(self, args):
     mac = args.get("mac", "")
-    if not mac:
-        return {
-            "message" : "error", 
-            "info" : "Please provide the MAC address"
-        }
     ouis = json.load(open("core/dependencies/oui.json"))
     mac = mac.replace("-", "").replace(":", "").upper()[:6]
     oui_info = ouis["ouis"].get(mac)
     if not oui_info:
         return {
-            "message" : "error", 
-            "info" : "MAC address not found"
+            "status" : "error", 
+            "message" : "MAC address not found"
         }
     country = ouis["countries"][oui_info["cc"]]
     organization = ouis["organizations"][oui_info["org"]]
@@ -26,6 +21,8 @@ def maclookup(self, args):
         "organization" : organization
     }
     return {
-        "message" : "success", 
-        "info" : data
+        "status" : "success", 
+        "data" : {
+            "info" : data
+        }
     }

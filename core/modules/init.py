@@ -15,13 +15,18 @@ def clear_screen():
     os.system("clear")
 
 def flatten_json(data):
-    keys = list(data.keys())
-    vals = list(data.values())
 
-    key_pad =  max([len(key) for key in keys])
+    for section in data:
+        information = data[section]
+        info(section)
 
-    for i in range(len(keys)):
-        info(f"{keys[i]} {" " * (key_pad - len(keys[i]))} | {vals[i]}")
+        keys = list(information.keys())
+        vals = list(information.values())
+
+        key_pad = max([len(key) for key in keys]) + 2
+
+        for i in range(len(keys)):
+            info(f"  {keys[i]}{" " * (key_pad - len(keys[i]))} |  {vals[i]}")
 
 def load_config():
     file = "core/dependencies/config.json"

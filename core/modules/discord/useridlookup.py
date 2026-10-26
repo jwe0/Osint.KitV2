@@ -14,8 +14,8 @@ def user_id_lookup(self, args):
     if response.status_code == 200:
         response_data = response.json()
 
-        results = {}
-
+        resultsU = {}
+        resultsC = {}
         key_blacklist = [
             "bio"
         ]
@@ -24,20 +24,23 @@ def user_id_lookup(self, args):
 
         for key, value in user_info.items():
             if type(value) != dict and key not in key_blacklist:
-                results[f"[U] {key}"] = value
+                resultsU[f"[U] {key}"] = value
 
         connected_accounts = response_data["connected_accounts"]
 
         for account in connected_accounts:
-            results[f"[S] {account.get("type")}"] = account["name"]
+            resultsC[f"[S] {account.get("type")}"] = account["name"]
 
         return {
-            "message" : "success",
-            "info" : results
+            "status" : "success",
+            "data" : {
+                "info" : resultsU,
+                "connected" : resultsC
+            }
         }
 
     return {
-        "message" : "error",
-        "info" : f"API error {response.status_code}"
+        "status" : "error",
+        "message" : f"API error {response.status_code}"
     }
 

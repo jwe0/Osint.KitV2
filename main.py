@@ -55,7 +55,7 @@ class Main:
                 "Banner" : {
                     "name" : "Banner lookup",
                     "description" : "Get a server banner",
-                    "args" : ["ip", "port"],
+                    "args" : ["host", "port"],
                     "func" : getbanner
                 },
                 "IsProxy" : {
@@ -230,17 +230,18 @@ class Main:
                 info(f"[>] Home/{section_}/{module_}/Confirm/Executing/Results")
                 print()
 
-                message     = response["message"]
-                information = response["info"]
+                message     = response["status"]
+                # information = response["data"]
 
                 if message == "error":
                     print()
                     error("Module failed")
-                    info(information)
+                    info(response["message"])
                 else:
                     success("Module ran")
                     print()
-                    flatten_json(information)
+                    
+                    flatten_json(response["data"])
 
             else:
                 print()

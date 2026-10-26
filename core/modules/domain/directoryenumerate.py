@@ -53,6 +53,8 @@ def dir_enumerate(self, args):
     result = enum.run()
 
     return {
-        "message" : "success",
-        "info" : result
+        "status" : "success",
+        "data" : {
+            "info" : result
+        }
     }

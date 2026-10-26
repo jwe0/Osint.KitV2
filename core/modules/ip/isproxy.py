@@ -18,10 +18,12 @@ def isproxy(self, args):
                 "provider" : provider
             }
             return {
-                "message" : "success", 
-                "info" : data
+                "status" : "success", 
+                "data" : {
+                    "info" :data
+                }
             }
     return {
-        "message" : "error", 
-        "info" : "No provider found"
+        "status" : "error", 
+        "message" : "No provider found"
     }

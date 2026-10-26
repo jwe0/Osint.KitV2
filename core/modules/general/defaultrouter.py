@@ -38,11 +38,13 @@ def router(self, args):
             "passwr" : ", ".join(passwr) if len(passwr) > 1 else passwr[0],
         }
         return {
-            "message" : "success", 
-            "info" : data
+            "status" : "success", 
+            "data" : {
+                "info" : data
+            }
         }
     
     return {
-        "message" : "error", 
-        "info" : "Router not found"
+        "status" : "error", 
+        "message" : "Router not found"
     }

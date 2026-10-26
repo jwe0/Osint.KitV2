@@ -4,11 +4,13 @@ def webhook_lookup(self, args):
 
     if response.status_code != 200:
         return {
-            "message" : "error",
-            "info" : f"API error occured {response.status_code}"
+            "status" : "error",
+            "message" : f"API error occured {response.status_code}"
         }
     
     return {
-        "message" : "success",
-        "info" : response.json()
+        "status" : "success",
+        "data" : {
+            "info" : response.json()
+        }
     }

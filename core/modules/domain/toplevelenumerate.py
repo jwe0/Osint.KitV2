@@ -44,6 +44,8 @@ def top_level_enumerate(self, args):
     enum = Enumerate_(args.get("domain"))
     result = enum.run()
     return {
-        "message" : "success",
-        "info" : result
+        "status" : "success",
+        "data" : {
+            "info" : result
+        }
     }
