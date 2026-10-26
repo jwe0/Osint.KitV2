@@ -31,13 +31,18 @@ def user_id_lookup(self, args):
         for account in connected_accounts:
             resultsC[f"[S] {account.get("type")}"] = account["name"]
 
-        return {
+
+        return_data =  {
             "status" : "success",
             "data" : {
-                "info" : resultsU,
-                "connected" : resultsC
+                "info" : resultsU
             }
         }
+
+        if connected_accounts:
+            return_data["data"]["connected"] = resultsC
+
+        return return_data
 
     return {
         "status" : "error",

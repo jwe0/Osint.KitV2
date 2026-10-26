@@ -21,6 +21,8 @@ from core.modules.domain.toplevelenumerate import top_level_enumerate
 # Discord
 from core.modules.discord.useridlookup import user_id_lookup
 from core.modules.discord.webhooklookup import webhook_lookup
+from core.modules.discord.tokenlookup import token_lookup
+from core.modules.discord.sessionlookup import discord_session
 
 class Main:
     def __init__(self):
@@ -97,6 +99,18 @@ class Main:
                     "description" : "Pull webhook info",
                     "args" : ["webhook"],
                     "func" : webhook_lookup
+                },
+                "Token_Lookup" : {
+                    "name" : "Token Lookup",
+                    "description" : "Lookup private token details",
+                    "args" : ["token"],
+                    "func" : token_lookup
+                },
+                "Discord_Session" : {
+                    "name" : "Session Lookup",
+                    "description" : "Grab a tokens sessions",
+                    "args" : ["token"],
+                    "func" : discord_session
                 }
             }
         }
