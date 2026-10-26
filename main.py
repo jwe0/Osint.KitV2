@@ -1,4 +1,4 @@
-import json, tls_client
+import tls_client
 from core.modules.init import ascii_art, clear_screen, flatten_json
 from core.modules.logging import *
 
@@ -101,7 +101,7 @@ class Main:
         clear_screen()
         ascii_art()
         print("❱ ᴅᴇᴠᴇʟᴏᴘᴇᴅ ʙʏ /ᴊᴡᴇ0   ")
-        print(f"❱ Loaded | Methods [{self.method_count}] | Modules [{self.module_count}]")
+        print(f"❱ ʟᴏᴀᴅᴇᴅ | ᴍᴇᴛʜᴏᴅꜱ [{self.method_count}] | ᴍᴏᴅᴜʟᴇꜱ [{self.module_count}]")
         print()
 
     def main(self):

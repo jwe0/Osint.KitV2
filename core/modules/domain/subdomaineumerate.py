@@ -22,20 +22,21 @@ class Enumerate_:
     def scan(self, domain):
         try:
             socket.gethostbyname(domain)
-            self.domains[domain] = "Found"
+            self.result[domain] = "Found"
         except:
             pass
         self.prog += 1
 
     def run(self):
         for sub in self.domains:
-            api = sub + self.domain
+            api = sub + "." + self.domain
             threading.Thread(target=self.scan, args=[api]).start()
 
         while int(self.prog) + 1 != int(self.subs_count):
             percent = (self.prog / self.subs_count) * 100
-            msg = info(f"{percent:.2f}", False)
+            msg = info(f"{percent:.2f}% [{self.prog}/{self.subs_count}]", False)
             print(msg, end="\r")
+        print()
         return self.result
 
 
