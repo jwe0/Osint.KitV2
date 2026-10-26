@@ -16,6 +16,7 @@ from core.modules.ip.isproxy import isproxy
 # Domain
 from core.modules.domain.directoryenumerate import dir_enumerate
 from core.modules.domain.subdomaineumerate import sub_domain_enumerate
+from core.modules.domain.toplevelenumerate import top_level_enumerate
 
 class Main:
     def __init__(self):
@@ -63,15 +64,21 @@ class Main:
             "Domain" : {
                 "Directory_Fuzz" : {
                     "name" : "Directory enumerator",
-                    "description" : "Find hidden pages",
+                    "description" : "Find hidden pages eg (https://google.com/)",
                     "args" : ["url"],
                     "func" : dir_enumerate
                 },
                 "Subdomain_Enumerate" : {
                     "name" : "Subdomain Enumerate",
-                    "description" : "Enumerate subdomains from a domain",
+                    "description" : "Enumerate subdomains from a domain eg (google.com)",
                     "args" : ["domain"],
                     "func" : sub_domain_enumerate
+                },
+                "Toplevel_Enumerate" : {
+                    "name" : "Top level enumerate",
+                    "description" : "Enumerate all domains eg (google.com)",
+                    "args" : ["domain"],
+                    "func" : top_level_enumerate
                 }
             }
         }
